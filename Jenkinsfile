@@ -34,14 +34,14 @@ pipeline {
 		}
 		stage("QAT Testing") {
 			steps {
-				sh 'sudo docker rm -f $(sudo docker ps -a -q)'
+			
 				sh 'sudo docker run -dit -p 8080:8080  deepakmishra02/pipeline-java:$BUILD_TAG'
 				}
 			}
 		stage("testing website") {
 			steps {
 				retry(5) {
-				sh 'curl --silent http://3.110.28.121:8080/java-web-app/ | grep -i "india" '
+				sh 'curl --silent http://3.110.28.121:8080/pipeline-java/ | grep -i "india" '
 					}
 				}
 			}
