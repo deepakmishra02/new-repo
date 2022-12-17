@@ -41,7 +41,7 @@ pipeline {
 		stage("testing website") {
 			steps {
 				retry(5) {
-				sh 'curl --silent http://3.110.28.121:8080/pipeline-java/ | grep -i "india" '
+				sh 'curl --silent http://172.31.12.49:8080/pipeline-java/ | grep -i "india" '
 					}
 				}
 			}
