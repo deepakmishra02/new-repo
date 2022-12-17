@@ -25,8 +25,8 @@ pipeline {
 	
 		stage("Docker Hub") {
 			steps {
-			withCredentials([string(credentialsId: 'docker-hub', variable: 'docker-hub-var')]) {
-				sh 'sudo docker login -u deepakmishra02 -p ${docker-hub-var}'
+			withCredentials([string(credentialsId: 'docker_hub', variable: 'docker_hub_var')]) {
+				sh 'sudo docker login -u deepakmishra02 -p ${docker_hub_var}'
 				sh 'sudo docker push deepakmishra02/pipeline-java:$BUILD_TAG'
 				}
 			}	
