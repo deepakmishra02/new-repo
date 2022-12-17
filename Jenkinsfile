@@ -1,11 +1,11 @@
 pipeline {
 	agent {	
-		label 'pipeline-1'
+		label 'pipeline-docker'
 		}
 	stages {
 		stage("SCM") {
 			steps {
-				git 'https://github.com/wssrronak/java-docker-app.git'
+				git branch: 'main', url: 'https://github.com/deepakmishra02/new-repo.git'
 				}
 			}
 
@@ -18,16 +18,16 @@ pipeline {
 		stage("Image") {
 			steps {
 				sh 'sudo docker build -t java-repo:$BUILD_TAG .'
-				sh 'sudo docker tag java-repo:$BUILD_TAG srronak/pipeline-java:$BUILD_TAG'
+				sh 'sudo docker tag java-repo:$BUILD_TAG deepakmishra02/pipeline-java:$BUILD_TAG'
 				}
 			}
 				
 	
 		stage("Docker Hub") {
 			steps {
-			withCredentials([string(credentialsId: 'docker_hub_passwd', variable: 'docker_hub_password_var')]) {
-				sh 'sudo docker login -u srronak -p ${docker_hub_password_var}'
-				sh 'sudo docker push srronak/pipeline-java:$BUILD_TAG'
+			withCredentials([string(credentialsId: 'docker-hub', variable: 'docker-hub')]) {
+				sh 'sudo docker login -u deepakmishra02 -p ${docker_hub}'
+				sh 'sudo docker push deepakmishra02/pipeline-java:$BUILD_TAG'
 				}
 			}	
 
@@ -35,13 +35,13 @@ pipeline {
 		stage("QAT Testing") {
 			steps {
 				sh 'sudo docker rm -f $(sudo docker ps -a -q)'
-				sh 'sudo docker run -dit -p 8080:8080  srronak/pipeline-java:$BUILD_TAG'
+				sh 'sudo docker run -dit -p 8080:8080  deepakmishra02/pipeline-java:$BUILD_TAG'
 				}
 			}
 		stage("testing website") {
 			steps {
 				retry(5) {
-				sh 'curl --silent http://65.2.140.187:8080/java-web-app/ | grep -i "india" '
+				sh 'curl --silent http://3.110.28.121:8080/java-web-app/ | grep -i "india" '
 					}
 				}
 			}
